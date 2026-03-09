@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HighSpin with LUMIA</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #0b1020 0%, #111827 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #1f2937;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 0 14px rgba(34, 211, 238, 0.25);
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #22d3ee;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 3px;
+    }
+
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .user {
+      align-self: flex-end;
+      background: #2563eb;
+      box-shadow: 0 0 20px rgba(37, 99, 235, 0.18);
+    }
+
+    .ai {
+      align-self: flex-start;
+      background: #1e293b;
+      border: 1px solid #334155;
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.08);
+    }
+
+    .system {
+      align-self: center;
+      background: #111827;
+      border: 1px dashed #334155;
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    #input-area {
+      border-top: 1px solid #1f2937;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .top-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .bottom-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 13px 14px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #111827;
+      color: white;
+      outline: none;
+    }
+
+    input[type="file"] {
+      color: #cbd5e1;
+    }
+
+    button {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 10px;
+      background: #22d3ee;
+      color: #0f172a;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      background: #06b6d4;
+      transform: translateY(-1px);
+    }
+
+    .ghost-btn {
+      background: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+    }
+
+    .ghost-btn:hover {
+      background: #273449;
+      color: white;
+    }
+
+    .mode-select {
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #111827;
+      color: white;
+      outline: none;
+  }
+
+  #featureBox {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 25px;
+  border-radius: 16px;
+  background: linear-gradient(145deg,#0f172a,#020617);
+  border: 1px solid #1e293b;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+#featureBox h2{
+  text-align:center;
+  margin-bottom:20px;
+  font-size:22px;
+  color:#38bdf8;
+  font-weight:700;
+}
+
+.feature-grid{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+}
+
+.feature-card{
+  flex:1;
+  padding:20px;
+  border-radius:12px;
+  background:#020617;
+  border:1px solid #1e293b;
+}
+
+.feature-card h3{
+  margin-bottom:12px;
+  color:#22c55e;
+}
+
+.feature-card ul{
+  padding-left:20px;
+}
+
+.feature-card li{
+  margin-bottom:6px;
+}
+
+.feature-card.disabled h3{
+  color:#f87171;
+}
+
+#featureBox {
+  max-width: 1100px;
+  margin: 24px auto 10px;
+  padding: 22px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(15,23,42,0.92), rgba(2,6,23,0.96));
+  border: 1px solid #1e293b;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.feature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.feature-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #67e8f9;
+}
+
+.feature-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.feature-btn {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #22d3ee;
+  color: #082f49;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.feature-btn:hover {
+  background: #06b6d4;
+}
+
+#featureContent.hidden {
+  display: none;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.feature-card {
+  padding: 18px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid #334155;
+}
+
+.feature-card h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #4ade80;
+}
+
+.feature-card.disabled h3 {
+  color: #f87171;
+}
+
+.feature-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.feature-card li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.feature-note {
+  margin-top: 18px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <img src="/icon.png" alt="HighSpin with LUMIA icon" />
+      <div>
+        <div class="title">HighSpin with LUMIA.v1</div>
+        <div class="subtitle">Strategic AI Partner · model: gpt-4.1-mini</div>
+      </div>
+    </div>
+  </header>
+
+  <div id="featureBox">
+  <div class="feature-header">
+    <h2>HighSpin with LUMIA.v1 현재 기능</h2>
+
+    <div class="feature-actions">
+      <button id="showFeatureBtn" class="feature-btn">기능 보기</button>
+      <button id="hideFeatureBtn" class="feature-btn ghost-btn">닫기</button>
+    </div>
+  </div>
+
+  <div id="featureContent">
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>가능</h3>
+        <ul>
+          <li>텍스트 질문 답변</li>
+          <li>대화 기억</li>
+          <li>모드 전환</li>
+          <li>업로드된 텍스트 기반 질문</li>
+        </ul>
+      </div>
+
+      <div class="feature-card disabled">
+        <h3>아직 불가</h3>
+        <ul>
+          <li>이미지 생성</li>
+          <li>웹 검색</li>
+          <li>이메일 발송</li>
+          <li>진짜 파일 변환</li>
+          <li>DB 기반 사용자 계정 조회</li>
+          <li>PDF / 워드 / 엑셀 완전 지원</li>
+          <li>링크 공유형 협업 서비스</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="feature-note">
+      ※ 기능은 지속적으로 업데이트됩니다.
+    </p>
+  </div>
+</div>
+
+  <div id="chat"></div>
+
+  <div id="input-area">
+  <div class="top-controls">
+    <input type="file" id="fileInput" />
+    <button id="uploadBtn" class="ghost-btn">파일 업로드</button>
+    <button id="clearBtn" class="ghost-btn">대화 초기화</button>
+
+    <select id="modeSelect" class="mode-select">
+      <option value="assistant">Personal Assistant</option>
+      <option value="strategy">Business Strategy</option>
+    </select>
+  </div>
+
+  <div class="bottom-controls">
+    <input id="question" type="text" placeholder="루미아에게 질문하세요..." />
+    <button id="ask">Send</button>
+  </div>
+</div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

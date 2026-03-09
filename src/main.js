@@ -1,0 +1,180 @@
+const button = document.getElementById("ask");
+const input = document.getElementById("question");
+const chat = document.getElementById("chat");
+const clearBtn = document.getElementById("clearBtn");
+const fileInput = document.getElementById("fileInput");
+const uploadBtn = document.getElementById("uploadBtn");
+const modeSelect = document.getElementById("modeSelect");
+
+const featureContent = document.getElementById("featureContent");
+const showFeatureBtn = document.getElementById("showFeatureBtn");
+const hideFeatureBtn = document.getElementById("hideFeatureBtn");
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+
+let messages = JSON.parse(localStorage.getItem("lumia_messages")) || [];
+let uploadedFileText = localStorage.getItem("lumia_file_text") || "";
+let currentMode = localStorage.getItem("lumia_mode") || "assistant";
+
+modeSelect.value = currentMode;
+
+function saveState() {
+  localStorage.setItem("lumia_messages", JSON.stringify(messages));
+  localStorage.setItem("lumia_file_text", uploadedFileText);
+  localStorage.setItem("lumia_mode", currentMode);
+}
+
+function addMessage(text, type) {
+  const div = document.createElement("div");
+  div.classList.add("message", type);
+  div.innerText = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  return div;
+}
+
+function typeText(text, element, speed = 16) {
+  return new Promise((resolve) => {
+    let i = 0;
+    element.innerText = "";
+
+    const timer = setInterval(() => {
+      element.innerText += text.charAt(i);
+      i++;
+      chat.scrollTop = chat.scrollHeight;
+
+      if (i >= text.length) {
+        clearInterval(timer);
+        resolve();
+      }
+    }, speed);
+  });
+}
+
+function addSystemMessage(text) {
+  addMessage(text, "system");
+}
+
+function renderSavedMessages() {
+  chat.innerHTML = "";
+
+  if (messages.length === 0) {
+    addSystemMessage("루미아가 준비되었습니다. 질문을 시작하세요.");
+    return;
+  }
+
+  messages.forEach((msg) => {
+    if (msg.role === "user") {
+      addMessage(msg.content, "user");
+    } else if (msg.role === "assistant") {
+      addMessage(msg.content, "ai");
+    }
+  });
+}
+
+async function askAI() {
+  const question = input.value.trim();
+  if (!question) return;
+
+  addMessage(question, "user");
+  messages.push({ role: "user", content: question });
+  saveState();
+  input.value = "";
+
+  const loadingBubble = addMessage("루미아가 생각중입니다...", "ai");
+
+  try {
+    const res = await fetch(`${API_URL}/ask`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        question,
+        messages,
+        uploadedFileText,
+        mode: currentMode,
+      }),
+    });
+
+    const data = await res.json();
+
+    loadingBubble.remove();
+
+    const aiBubble = addMessage("", "ai");
+    await typeText(data.answer, aiBubble);
+
+    messages.push({ role: "assistant", content: data.answer });
+    saveState();
+  } catch (error) {
+    loadingBubble.remove();
+    addMessage("서버 연결 실패 또는 응답 오류입니다.", "ai");
+  }
+}
+
+button.addEventListener("click", askAI);
+
+input.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    button.click();
+  }
+});
+
+clearBtn.addEventListener("click", () => {
+  messages = [];
+  uploadedFileText = "";
+  chat.innerHTML = "";
+  fileInput.value = "";
+  localStorage.removeItem("lumia_messages");
+  localStorage.removeItem("lumia_file_text");
+  addSystemMessage("대화와 업로드된 파일 정보가 초기화되었습니다.");
+});
+
+uploadBtn.addEventListener("click", async () => {
+  const file = fileInput.files[0];
+
+  if (!file) {
+    addSystemMessage("먼저 업로드할 텍스트 파일을 선택해주세요.");
+    return;
+  }
+
+  try {
+    const text = await file.text();
+    uploadedFileText = text;
+    saveState();
+    addSystemMessage(`파일 업로드 완료: ${file.name}`);
+  } catch (error) {
+    addSystemMessage("파일을 읽는 중 오류가 발생했습니다.");
+  }
+});
+
+modeSelect.addEventListener("change", () => {
+  currentMode = modeSelect.value;
+  saveState();
+
+  if (currentMode === "assistant") {
+    addSystemMessage("현재 모드: Personal Assistant");
+  } else if (currentMode === "strategy") {
+    addSystemMessage("현재 모드: Business Strategy");
+  }
+});
+
+showFeatureBtn.addEventListener("click", () => {
+  featureContent.classList.remove("hidden");
+});
+
+hideFeatureBtn.addEventListener("click", () => {
+  featureContent.classList.add("hidden");
+});
+
+renderSavedMessages();
+
+if (uploadedFileText) {
+  addSystemMessage("이전 업로드 파일 정보도 유지되고 있습니다.");
+}
+
+if (currentMode === "assistant") {
+  addSystemMessage("현재 모드: Personal Assistant");
+} else {
+  addSystemMessage("현재 모드: Business Strategy");
+}
