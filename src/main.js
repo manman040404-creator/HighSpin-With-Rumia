@@ -3,8 +3,9 @@ const input = document.getElementById("question");
 const chat = document.getElementById("chat");
 const clearBtn = document.getElementById("clearBtn");
 const fileInput = document.getElementById("fileInput");
-const uploadBtn = document.getElementById("uploadBtn");
+const plusBtn = document.getElementById("plusBtn");
 const modeSelect = document.getElementById("modeSelect");
+const fileName = document.getElementById("fileName");
 
 const featureContent = document.getElementById("featureContent");
 const showFeatureBtn = document.getElementById("showFeatureBtn");
@@ -14,6 +15,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
 let messages = JSON.parse(localStorage.getItem("lumia_messages")) || [];
 let uploadedFileText = localStorage.getItem("lumia_file_text") || "";
+let uploadedFileName = localStorage.getItem("lumia_file_name") || "";
 let currentMode = localStorage.getItem("lumia_mode") || "assistant";
 
 modeSelect.value = currentMode;
@@ -21,6 +23,7 @@ modeSelect.value = currentMode;
 function saveState() {
   localStorage.setItem("lumia_messages", JSON.stringify(messages));
   localStorage.setItem("lumia_file_text", uploadedFileText);
+  localStorage.setItem("lumia_file_name", uploadedFileName);
   localStorage.setItem("lumia_mode", currentMode);
 }
 
@@ -53,6 +56,14 @@ function typeText(text, element, speed = 16) {
 
 function addSystemMessage(text) {
   addMessage(text, "system");
+}
+
+function updateFileName() {
+  if (uploadedFileName) {
+    fileName.innerText = `첨부된 파일: ${uploadedFileName}`;
+  } else {
+    fileName.innerText = "";
+  }
 }
 
 function renderSavedMessages() {
@@ -123,20 +134,31 @@ input.addEventListener("keypress", (e) => {
 clearBtn.addEventListener("click", () => {
   messages = [];
   uploadedFileText = "";
+  uploadedFileName = "";
   chat.innerHTML = "";
   fileInput.value = "";
+
   localStorage.removeItem("lumia_messages");
   localStorage.removeItem("lumia_file_text");
+  localStorage.removeItem("lumia_file_name");
+
+  updateFileName();
   addSystemMessage("대화와 업로드된 파일 정보가 초기화되었습니다.");
 });
 
-uploadBtn.addEventListener("click", async () => {
+plusBtn.addEventListener("click", () => {
+  fileInput.click();
+});
+
+fileInput.addEventListener("change", async () => {
   const file = fileInput.files[0];
 
   if (!file) {
-    addSystemMessage("먼저 업로드할 텍스트 파일을 선택해주세요.");
     return;
   }
+
+  uploadedFileName = file.name;
+  updateFileName();
 
   try {
     const text = await file.text();
@@ -144,6 +166,8 @@ uploadBtn.addEventListener("click", async () => {
     saveState();
     addSystemMessage(`파일 업로드 완료: ${file.name}`);
   } catch (error) {
+    uploadedFileText = "";
+    saveState();
     addSystemMessage("파일을 읽는 중 오류가 발생했습니다.");
   }
 });
@@ -168,9 +192,10 @@ hideFeatureBtn.addEventListener("click", () => {
 });
 
 renderSavedMessages();
+updateFileName();
 
-if (uploadedFileText) {
-  addSystemMessage("이전 업로드 파일 정보도 유지되고 있습니다.");
+if (uploadedFileText && uploadedFileName) {
+  addSystemMessage(`이전 업로드 파일이 유지되고 있습니다: ${uploadedFileName}`);
 }
 
 if (currentMode === "assistant") {

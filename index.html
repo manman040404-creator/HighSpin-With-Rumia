@@ -16,7 +16,7 @@
       color: white;
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      height: 100dvh;
     }
 
     header {
@@ -27,6 +27,7 @@
       align-items: center;
       background: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(8px);
+      flex-shrink: 0;
     }
 
     .brand {
@@ -56,13 +57,119 @@
       margin-top: 3px;
     }
 
+    #featureBox {
+      max-width: 1100px;
+      width: calc(100% - 20px);
+      margin: 12px auto 8px;
+      padding: 14px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(15,23,42,0.92), rgba(2,6,23,0.96));
+      border: 1px solid #1e293b;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      flex-shrink: 0;
+    }
+
+    .feature-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 0;
+    }
+
+    .feature-header h2 {
+      margin: 0;
+      font-size: 18px;
+      color: #67e8f9;
+    }
+
+    .feature-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .feature-btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 10px;
+      background: #22d3ee;
+      color: #082f49;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .feature-btn:hover {
+      background: #06b6d4;
+    }
+
+    .ghost-btn {
+      background: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+    }
+
+    .ghost-btn:hover {
+      background: #273449;
+      color: white;
+    }
+
+    #featureContent.hidden {
+      display: none;
+    }
+
+    #featureContent {
+      margin-top: 14px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .feature-card {
+      padding: 18px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid #334155;
+    }
+
+    .feature-card h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #4ade80;
+    }
+
+    .feature-card.disabled h3 {
+      color: #f87171;
+    }
+
+    .feature-card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .feature-card li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .feature-note {
+      margin-top: 18px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
     #chat {
       flex: 1;
       overflow-y: auto;
-      padding: 20px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 12px;
+      min-height: 0;
     }
 
     .message {
@@ -97,27 +204,39 @@
 
     #input-area {
       border-top: 1px solid #1f2937;
-      padding: 14px 16px;
+      padding: 10px 12px 12px;
       display: flex;
       flex-direction: column;
       gap: 10px;
       background: rgba(15, 23, 42, 0.98);
+      flex-shrink: 0;
     }
 
-    .top-controls {
+    .utility-row {
       display: flex;
-      gap: 10px;
+      justify-content: space-between;
       align-items: center;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    .bottom-controls {
-      display: flex;
-      gap: 10px;
-      align-items: center;
+    .mode-select {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #111827;
+      color: white;
+      outline: none;
+      min-width: 180px;
     }
 
-    input[type="text"] {
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #question {
       flex: 1;
       padding: 13px 14px;
       border-radius: 10px;
@@ -125,10 +244,7 @@
       background: #111827;
       color: white;
       outline: none;
-    }
-
-    input[type="file"] {
-      color: #cbd5e1;
+      min-width: 0;
     }
 
     button {
@@ -147,161 +263,104 @@
       transform: translateY(-1px);
     }
 
-    .ghost-btn {
-      background: #1e293b;
-      color: #cbd5e1;
-      border: 1px solid #334155;
+    #fileInput {
+      display: none;
     }
 
-    .ghost-btn:hover {
+    #plusBtn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      padding: 0;
+      font-size: 24px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      flex-shrink: 0;
+    }
+
+    #plusBtn:hover {
       background: #273449;
       color: white;
     }
 
-    .mode-select {
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid #334155;
-      background: #111827;
-      color: white;
-      outline: none;
-  }
+    #ask {
+      flex-shrink: 0;
+    }
 
-  #featureBox {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 25px;
-  border-radius: 16px;
-  background: linear-gradient(145deg,#0f172a,#020617);
-  border: 1px solid #1e293b;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-}
+    .file-name {
+      font-size: 12px;
+      color: #94a3b8;
+      padding-left: 4px;
+    }
 
-#featureBox h2{
-  text-align:center;
-  margin-bottom:20px;
-  font-size:22px;
-  color:#38bdf8;
-  font-weight:700;
-}
+    @media (max-width: 768px) {
+      header {
+        padding: 12px 14px;
+      }
 
-.feature-grid{
-  display:flex;
-  gap:20px;
-  justify-content:center;
-}
+      .title {
+        font-size: 17px;
+      }
 
-.feature-card{
-  flex:1;
-  padding:20px;
-  border-radius:12px;
-  background:#020617;
-  border:1px solid #1e293b;
-}
+      .subtitle {
+        font-size: 11px;
+      }
 
-.feature-card h3{
-  margin-bottom:12px;
-  color:#22c55e;
-}
+      #featureBox {
+        width: calc(100% - 16px);
+        margin: 8px auto 6px;
+        padding: 12px;
+      }
 
-.feature-card ul{
-  padding-left:20px;
-}
+      .feature-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
 
-.feature-card li{
-  margin-bottom:6px;
-}
+      .feature-header h2 {
+        font-size: 16px;
+      }
 
-.feature-card.disabled h3{
-  color:#f87171;
-}
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
 
-#featureBox {
-  max-width: 1100px;
-  margin: 24px auto 10px;
-  padding: 22px;
-  border-radius: 18px;
-  background: linear-gradient(145deg, rgba(15,23,42,0.92), rgba(2,6,23,0.96));
-  border: 1px solid #1e293b;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-}
+      #chat {
+        padding: 12px;
+      }
 
-.feature-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 18px;
-}
+      .message {
+        max-width: 88%;
+        font-size: 14px;
+      }
 
-.feature-header h2 {
-  margin: 0;
-  font-size: 24px;
-  color: #67e8f9;
-}
+      .utility-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
 
-.feature-actions {
-  display: flex;
-  gap: 8px;
-}
+      .mode-select,
+      #clearBtn {
+        width: 100%;
+      }
 
-.feature-btn {
-  padding: 10px 14px;
-  border: none;
-  border-radius: 10px;
-  background: #22d3ee;
-  color: #082f49;
-  font-weight: 700;
-  cursor: pointer;
-}
+      .input-row {
+        gap: 8px;
+      }
 
-.feature-btn:hover {
-  background: #06b6d4;
-}
+      #question {
+        font-size: 16px;
+      }
 
-#featureContent.hidden {
-  display: none;
-}
-
-.feature-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-
-.feature-card {
-  padding: 18px;
-  border-radius: 14px;
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid #334155;
-}
-
-.feature-card h3 {
-  margin-top: 0;
-  margin-bottom: 12px;
-  color: #4ade80;
-}
-
-.feature-card.disabled h3 {
-  color: #f87171;
-}
-
-.feature-card ul {
-  margin: 0;
-  padding-left: 18px;
-}
-
-.feature-card li {
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-
-.feature-note {
-  margin-top: 18px;
-  text-align: center;
-  color: #94a3b8;
-  font-size: 13px;
-}
+      #ask {
+        padding: 12px 14px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -317,66 +376,72 @@
   </header>
 
   <div id="featureBox">
-  <div class="feature-header">
-    <h2>HighSpin with LUMIA.v1 현재 기능</h2>
+    <div class="feature-header">
+      <h2>HighSpin with LUMIA.v1 현재 기능</h2>
 
-    <div class="feature-actions">
-      <button id="showFeatureBtn" class="feature-btn">기능 보기</button>
-      <button id="hideFeatureBtn" class="feature-btn ghost-btn">닫기</button>
-    </div>
-  </div>
-
-  <div id="featureContent">
-    <div class="feature-grid">
-      <div class="feature-card">
-        <h3>가능</h3>
-        <ul>
-          <li>텍스트 질문 답변</li>
-          <li>대화 기억</li>
-          <li>모드 전환</li>
-          <li>업로드된 텍스트 기반 질문</li>
-        </ul>
-      </div>
-
-      <div class="feature-card disabled">
-        <h3>아직 불가</h3>
-        <ul>
-          <li>이미지 생성</li>
-          <li>웹 검색</li>
-          <li>이메일 발송</li>
-          <li>진짜 파일 변환</li>
-          <li>DB 기반 사용자 계정 조회</li>
-          <li>PDF / 워드 / 엑셀 완전 지원</li>
-          <li>링크 공유형 협업 서비스</li>
-        </ul>
+      <div class="feature-actions">
+        <button id="showFeatureBtn" class="feature-btn">기능 보기</button>
+        <button id="hideFeatureBtn" class="feature-btn ghost-btn">닫기</button>
       </div>
     </div>
 
-    <p class="feature-note">
-      ※ 기능은 지속적으로 업데이트됩니다.
-    </p>
+    <div id="featureContent" class="hidden">
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>가능</h3>
+          <ul>
+            <li>텍스트 질문 답변</li>
+            <li>대화 기억</li>
+            <li>모드 전환</li>
+            <li>업로드된 텍스트 기반 질문</li>
+          </ul>
+        </div>
+
+        <div class="feature-card disabled">
+          <h3>아직 불가</h3>
+          <ul>
+            <li>이미지 생성</li>
+            <li>웹 검색</li>
+            <li>이메일 발송</li>
+            <li>진짜 파일 변환</li>
+            <li>DB 기반 사용자 계정 조회</li>
+            <li>PDF / 워드 / 엑셀 완전 지원</li>
+            <li>링크 공유형 협업 서비스</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="feature-note">
+        ※ 기능은 지속적으로 업데이트됩니다.
+      </p>
+    </div>
   </div>
-</div>
 
   <div id="chat"></div>
 
   <div id="input-area">
-  <div class="top-controls">
-    <input type="file" id="fileInput" />
-    <button id="uploadBtn" class="ghost-btn">파일 업로드</button>
-    <button id="clearBtn" class="ghost-btn">대화 초기화</button>
+    <div class="utility-row">
+      <select id="modeSelect" class="mode-select">
+        <option value="assistant">Personal Assistant</option>
+        <option value="strategy">Business Strategy</option>
+      </select>
 
-    <select id="modeSelect" class="mode-select">
-      <option value="assistant">Personal Assistant</option>
-      <option value="strategy">Business Strategy</option>
-    </select>
-  </div>
+      <button id="clearBtn" class="ghost-btn">대화 초기화</button>
+    </div>
 
-  <div class="bottom-controls">
-    <input id="question" type="text" placeholder="루미아에게 질문하세요..." />
-    <button id="ask">Send</button>
+    <div class="input-row">
+      <input
+        type="file"
+        id="fileInput"
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt"
+      />
+      <button id="plusBtn" type="button">+</button>
+      <input id="question" type="text" placeholder="루미아에게 질문하세요..." />
+      <button id="ask">Send</button>
+    </div>
+
+    <div id="fileName" class="file-name"></div>
   </div>
-</div>
 
   <script type="module" src="/src/main.js"></script>
 </body>
