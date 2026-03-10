@@ -6,6 +6,7 @@ const fileInput = document.getElementById("fileInput");
 const plusBtn = document.getElementById("plusBtn");
 const modeSelect = document.getElementById("modeSelect");
 const fileName = document.getElementById("fileName");
+const modeIndicator = document.getElementById("modeIndicator");
 
 const featureContent = document.getElementById("featureContent");
 const toggleFeatureBtn = document.getElementById("toggleFeatureBtn");
@@ -18,6 +19,16 @@ let uploadedFileName = localStorage.getItem("lumia_file_name") || "";
 let currentMode = localStorage.getItem("lumia_mode") || "assistant";
 
 modeSelect.value = currentMode;
+
+function updateModeIndicator() {
+  modeIndicator.classList.remove("assistant", "strategy");
+
+  if (currentMode === "assistant") {
+    modeIndicator.classList.add("assistant");
+  } else {
+    modeIndicator.classList.add("strategy");
+  }
+}
 
 function saveState() {
   localStorage.setItem("lumia_messages", JSON.stringify(messages));
@@ -174,12 +185,7 @@ fileInput.addEventListener("change", async () => {
 modeSelect.addEventListener("change", () => {
   currentMode = modeSelect.value;
   saveState();
-
-  if (currentMode === "assistant") {
-    addSystemMessage("현재 모드: Personal Assistant");
-  } else if (currentMode === "strategy") {
-    addSystemMessage("현재 모드: Business Strategy");
-  }
+  updateModeIndicator();
 });
 
 toggleFeatureBtn.addEventListener("click", () => {
@@ -201,12 +207,8 @@ if (uploadedFileText && uploadedFileName) {
   addSystemMessage(`이전 업로드 파일이 유지되고 있습니다: ${uploadedFileName}`);
 }
 
-if (currentMode === "assistant") {
-  addSystemMessage("현재 모드: Personal Assistant");
-} else {
-  addSystemMessage("현재 모드: Business Strategy");
-}
-
 toggleFeatureBtn.innerText = featureContent.classList.contains("hidden")
   ? "기능 보기"
   : "닫기";
+
+updateModeIndicator();

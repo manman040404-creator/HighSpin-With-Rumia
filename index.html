@@ -228,7 +228,8 @@
       background: #111827;
       color: white;
       outline: none;
-      min-width: 180px;
+      min-width: 0;
+      min-width: 100px;
     }
 
     #clearBtn {
@@ -303,6 +304,32 @@
       font-size: 12px;
       color: #94a3b8;
       padding-left: 4px;
+    }
+
+    .mode-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mode-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    }
+
+    .mode-indicator.assistant {
+      background: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    .mode-indicator.strategy {
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.45);
     }
 
     @media (max-width: 768px) {
@@ -386,6 +413,15 @@
         padding: 12px 14px;
       }
     }
+      .mode-wrap {
+        gap: 8px;
+      }
+
+      .mode-indicator {
+        width: 10px;
+        height: 10px;
+      }
+      
   </style>
 </head>
 <body>
@@ -445,13 +481,17 @@
 
   <div id="input-area">
     <div class="utility-row">
-      <select id="modeSelect" class="mode-select">
-        <option value="assistant">Personal Assistant</option>
-        <option value="strategy">Business Strategy</option>
-      </select>
+      <div class="mode-wrap" id="modeWrap">
+        <span id="modeIndicator" class="mode-indicator assistant"></span>
 
-      <button id="clearBtn" class="ghost-btn">대화 초기화</button>
+        <select id="modeSelect" class="mode-select">
+          <option value="assistant">Personal Assistant</option>
+          <option value="strategy">Business Strategy</option>
+        </select>
     </div>
+
+  <button id="clearBtn" class="ghost-btn">대화 초기화</button>
+</div>
 
     <div class="input-row">
       <input
