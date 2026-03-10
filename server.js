@@ -91,8 +91,15 @@ app.post("/ask", async (req, res) => {
 `;
     }
 
-    const finalPrompt = `
+    const now = new Date().toLocaleString("ko-KR", {
+  timeZone: "Asia/Seoul"
+});
+
+const finalPrompt = `
 ${modePrompt}
+
+[현재 실제 날짜]
+${now}
 
 [이전 대화]
 ${historyText || "없음"}
