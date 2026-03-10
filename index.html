@@ -58,11 +58,11 @@
     }
 
     #featureBox {
-      max-width: 1100px;
-      width: calc(100% - 20px);
-      margin: 12px auto 8px;
-      padding: 14px;
-      border-radius: 16px;
+      max-width: 1200px;
+      width: calc(100% - 40px);
+      margin: 16px auto 10px;
+      padding: 18px;
+      border-radius: 18px;
       background: linear-gradient(145deg, rgba(15,23,42,0.92), rgba(2,6,23,0.96));
       border: 1px solid #1e293b;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
@@ -90,7 +90,7 @@
     }
 
     .feature-btn {
-      padding: 8px 12px;
+      padding: 8px 14px;
       border: none;
       border-radius: 10px;
       background: #22d3ee;
@@ -164,8 +164,9 @@
 
     #chat {
       flex: 1;
+      width: 100%;
       overflow-y: auto;
-      padding: 16px;
+      padding: 20px 32px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -204,7 +205,7 @@
 
     #input-area {
       border-top: 1px solid #1f2937;
-      padding: 10px 12px 12px;
+      padding: 14px 24px 16px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -230,10 +231,16 @@
       min-width: 180px;
     }
 
+    #clearBtn {
+      padding: 10px 14px;
+      white-space: nowrap;
+    }
+    
     .input-row {
       display: flex;
       align-items: center;
       gap: 8px;
+      width: 100%;
     }
 
     #question {
@@ -330,6 +337,11 @@
         grid-template-columns: 1fr;
       }
 
+      .feature-btn {
+        padding: 7px 12px;
+        font-size: 14px;
+      }
+
       #chat {
         padding: 12px;
       }
@@ -340,13 +352,26 @@
       }
 
       .utility-row {
-        flex-direction: column;
-        align-items: stretch;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: nowrap;
       }
 
-      .mode-select,
+      .mode-select {
+        flex: 1;
+        min-width: 0;
+        height: 40px;
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+
       #clearBtn {
-        width: 100%;
+        height: 40px;
+        padding: 8px 12px;
+        font-size: 14px;
+        flex-shrink: 0;
       }
 
       .input-row {
@@ -375,47 +400,46 @@
     </div>
   </header>
 
-  <div id="featureBox">
-    <div class="feature-header">
-      <h2>HighSpin with LUMIA.v1 현재 기능</h2>
+ <div id="featureBox">
+  <div class="feature-header">
+    <h2>HighSpin with LUMIA.v1 현재 기능</h2>
 
-      <div class="feature-actions">
-        <button id="showFeatureBtn" class="feature-btn">기능 보기</button>
-        <button id="hideFeatureBtn" class="feature-btn ghost-btn">닫기</button>
-      </div>
-    </div>
-
-    <div id="featureContent" class="hidden">
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>가능</h3>
-          <ul>
-            <li>텍스트 질문 답변</li>
-            <li>대화 기억</li>
-            <li>모드 전환</li>
-            <li>업로드된 텍스트 기반 질문</li>
-          </ul>
-        </div>
-
-        <div class="feature-card disabled">
-          <h3>아직 불가</h3>
-          <ul>
-            <li>이미지 생성</li>
-            <li>웹 검색</li>
-            <li>이메일 발송</li>
-            <li>진짜 파일 변환</li>
-            <li>DB 기반 사용자 계정 조회</li>
-            <li>PDF / 워드 / 엑셀 완전 지원</li>
-            <li>링크 공유형 협업 서비스</li>
-          </ul>
-        </div>
-      </div>
-
-      <p class="feature-note">
-        ※ 기능은 지속적으로 업데이트됩니다.
-      </p>
+    <div class="feature-actions">
+      <button id="toggleFeatureBtn" class="feature-btn">기능 보기</button>
     </div>
   </div>
+
+  <div id="featureContent" class="hidden">
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>가능</h3>
+        <ul>
+          <li>텍스트 질문 답변</li>
+          <li>대화 기억</li>
+          <li>모드 전환</li>
+          <li>업로드된 텍스트 기반 질문</li>
+        </ul>
+      </div>
+
+      <div class="feature-card disabled">
+        <h3>아직 불가</h3>
+        <ul>
+          <li>이미지 생성</li>
+          <li>웹 검색</li>
+          <li>이메일 발송</li>
+          <li>진짜 파일 변환</li>
+          <li>DB 기반 사용자 계정 조회</li>
+          <li>PDF / 워드 / 엑셀 완전 지원</li>
+          <li>링크 공유형 협업 서비스</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="feature-note">
+      ※ 기능은 지속적으로 업데이트됩니다.
+    </p>
+  </div>
+</div>
 
   <div id="chat"></div>
 

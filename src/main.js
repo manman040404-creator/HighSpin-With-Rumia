@@ -8,8 +8,7 @@ const modeSelect = document.getElementById("modeSelect");
 const fileName = document.getElementById("fileName");
 
 const featureContent = document.getElementById("featureContent");
-const showFeatureBtn = document.getElementById("showFeatureBtn");
-const hideFeatureBtn = document.getElementById("hideFeatureBtn");
+const toggleFeatureBtn = document.getElementById("toggleFeatureBtn");
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
@@ -183,12 +182,16 @@ modeSelect.addEventListener("change", () => {
   }
 });
 
-showFeatureBtn.addEventListener("click", () => {
-  featureContent.classList.remove("hidden");
-});
+toggleFeatureBtn.addEventListener("click", () => {
+  const isHidden = featureContent.classList.contains("hidden");
 
-hideFeatureBtn.addEventListener("click", () => {
-  featureContent.classList.add("hidden");
+  if (isHidden) {
+    featureContent.classList.remove("hidden");
+    toggleFeatureBtn.innerText = "닫기";
+  } else {
+    featureContent.classList.add("hidden");
+    toggleFeatureBtn.innerText = "기능 보기";
+  }
 });
 
 renderSavedMessages();
@@ -203,3 +206,7 @@ if (currentMode === "assistant") {
 } else {
   addSystemMessage("현재 모드: Business Strategy");
 }
+
+toggleFeatureBtn.innerText = featureContent.classList.contains("hidden")
+  ? "기능 보기"
+  : "닫기";
